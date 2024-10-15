@@ -12,10 +12,8 @@ import java.util.List;
 public interface StaffMapper {
     StaffResponseDTO toResponseDTO(Staff staff);
     List<StaffResponseDTO> toResponseDTOs(List<Staff> staffs);
-    StaffCreationDTO toCreationDTO(Staff staff);
     StaffUpdateDTO toUpdateDTO(Staff staff);
 
-    Staff toEntity(StaffCreationDTO staffCreationDTO);
     Staff toEntity(StaffUpdateDTO staffUpdateDTO);
     Staff toEntity(StaffRegistrationRequestDTO registrationRequestDTO);
 }

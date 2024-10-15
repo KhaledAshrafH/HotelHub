@@ -1,5 +1,7 @@
 package com.khalouda.hotelhub.model.dto;
 
+import com.khalouda.hotelhub.model.entity.Hotel;
+import com.khalouda.hotelhub.model.entity.RoomType;
 import com.khalouda.hotelhub.model.enums.RoomStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,10 +16,12 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class RoomResponseDTO {
+    private String hotelName;
     private Long roomId;
     private String roomNumber;
     private int capacity;
     private BigDecimal pricePerNight;
     private String amenities;
     private RoomStatus status;
+    private RoomTypeResponseDTO type;
 }

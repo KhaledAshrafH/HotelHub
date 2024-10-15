@@ -16,9 +16,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class RoomCreationDTO {
+    private Long roomTypeId;
     private String roomNumber;
     private int capacity;
     private BigDecimal pricePerNight;
     private String amenities;
-    private RoomStatus status;
 }

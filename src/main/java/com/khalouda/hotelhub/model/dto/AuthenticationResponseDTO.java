@@ -1,5 +1,6 @@
 package com.khalouda.hotelhub.model.dto;
 
+import com.khalouda.hotelhub.model.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,5 +14,5 @@ public class AuthenticationResponseDTO {
     private Long userId;
     private String email;
     private String token;
-    private UserResponseDTO user;
+    private UserRole role;
 }

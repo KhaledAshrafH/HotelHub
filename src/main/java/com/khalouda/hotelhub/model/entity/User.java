@@ -73,9 +73,32 @@ public class User implements UserDetails {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
+    @OneToMany(mappedBy = "user")
+    List<Booking> bookings;
+
+    @OneToMany(mappedBy = "user")
+    List<Notification> notifications;
+
+    @OneToMany(mappedBy = "user")
+    List<Review> reviews;
+
+    @OneToMany(mappedBy = "user")
+    List<LoyaltyPoint> loyaltyPoints;
+
+    @OneToMany(mappedBy = "user")
+    List<EventBooking> eventBookings;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_room_feature",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "room_feature_id")
+    )
+    private List<RoomFeature> roomFeatures;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_"+role.name()));
     }
 
     @Override

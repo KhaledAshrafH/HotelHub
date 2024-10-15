@@ -3,7 +3,9 @@ package com.khalouda.hotelhub.controller;
 import com.khalouda.hotelhub.model.dto.HotelCreationDTO;
 import com.khalouda.hotelhub.model.dto.HotelResponseDTO;
 import com.khalouda.hotelhub.model.dto.HotelUpdateDTO;
+import com.khalouda.hotelhub.model.dto.RoomResponseDTO;
 import com.khalouda.hotelhub.service.HotelService;
+import com.khalouda.hotelhub.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HotelController {
     private final HotelService hotelService;
+    private final RoomService roomService;
 
     @PostMapping("")
     public ResponseEntity<HotelResponseDTO> createHotel(@RequestBody HotelCreationDTO hotelCreationDTO) {
@@ -29,10 +32,17 @@ public class HotelController {
         return ResponseEntity.ok(hotel);
     }
 
-    @GetMapping
+    @GetMapping("")
     public ResponseEntity<List<HotelResponseDTO>> getAllHotels() {
         List<HotelResponseDTO> hotels = hotelService.getAllHotels();
         return ResponseEntity.ok(hotels);
+    }
+
+
+    @GetMapping("/{hotelId}/rooms")
+    public ResponseEntity<List<RoomResponseDTO>> getAllRoomsByHotelId(@PathVariable(name = "hotelId") Long hotelId) {
+        List<RoomResponseDTO> rooms = roomService.getAllRoomsByHotelId(hotelId);
+        return ResponseEntity.ok(rooms);
     }
 
     @PutMapping("/{id}")

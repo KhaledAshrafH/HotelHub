@@ -1,8 +1,7 @@
 package com.khalouda.hotelhub.controller;
 
-import com.khalouda.hotelhub.model.dto.RoomCreationDTO;
-import com.khalouda.hotelhub.model.dto.RoomResponseDTO;
-import com.khalouda.hotelhub.model.dto.RoomUpdateDTO;
+import com.khalouda.hotelhub.model.dto.*;
+import com.khalouda.hotelhub.model.entity.RoomType;
 import com.khalouda.hotelhub.service.RoomService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +30,8 @@ public class RoomController {
     }
 
     @PostMapping("")
-    public ResponseEntity<RoomResponseDTO> createRoom(@Valid @RequestBody RoomCreationDTO roomCreationDTO) {
-        RoomResponseDTO createdRoom = roomService.createRoom(roomCreationDTO);
+    public ResponseEntity<RoomResponseDTO> createRoom(@Valid @RequestBody RoomCreationDTO roomCreationDTO,@RequestParam(name = "hotelId") Long hotelId) {
+        RoomResponseDTO createdRoom = roomService.createRoom(roomCreationDTO,hotelId);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdRoom);
     }
 
@@ -50,4 +49,11 @@ public class RoomController {
         roomService.deleteRoom(roomId);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("room-type")
+    public ResponseEntity<RoomTypeResponseDTO> createRoomType(@Valid @RequestBody RoomTypeCreationDTO roomTypeCreationDTO) {
+        RoomTypeResponseDTO createdRoomType = roomService.addRoomType(roomTypeCreationDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdRoomType);
+    }
+
 }

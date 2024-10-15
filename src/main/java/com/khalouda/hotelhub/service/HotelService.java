@@ -3,6 +3,7 @@ package com.khalouda.hotelhub.service;
 import com.khalouda.hotelhub.model.dto.HotelCreationDTO;
 import com.khalouda.hotelhub.model.dto.HotelResponseDTO;
 import com.khalouda.hotelhub.model.dto.HotelUpdateDTO;
+import com.khalouda.hotelhub.model.dto.RoomResponseDTO;
 
 import java.util.List;
 
@@ -17,5 +18,4 @@ public interface HotelService {
     HotelResponseDTO updateHotel(Long hotelId, HotelUpdateDTO hotelUpdateDTO);
 
     void deleteHotel(Long hotelId);
-
 }

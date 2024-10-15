@@ -2,16 +2,20 @@ package com.khalouda.hotelhub.service.impl;
 
 import com.khalouda.hotelhub.exception.HotelNotFoundException;
 import com.khalouda.hotelhub.exception.RoomNotFoundException;
-import com.khalouda.hotelhub.model.dto.RoomCreationDTO;
-import com.khalouda.hotelhub.model.dto.RoomResponseDTO;
-import com.khalouda.hotelhub.model.dto.RoomUpdateDTO;
+import com.khalouda.hotelhub.model.dto.*;
 import com.khalouda.hotelhub.model.entity.Room;
+import com.khalouda.hotelhub.model.entity.RoomType;
+import com.khalouda.hotelhub.model.enums.RoomStatus;
 import com.khalouda.hotelhub.model.mapper.RoomMapper;
+import com.khalouda.hotelhub.model.mapper.RoomTypeMapper;
+import com.khalouda.hotelhub.repository.HotelRepository;
 import com.khalouda.hotelhub.repository.RoomRepository;
+import com.khalouda.hotelhub.repository.RoomTypeRepository;
 import com.khalouda.hotelhub.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,26 +24,44 @@ public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
+    private final RoomTypeRepository roomTypeRepository;
+    private final RoomTypeMapper roomTypeMapper;
+    private final HotelRepository hotelRepository;
 
     @Override
-    public RoomResponseDTO createRoom(RoomCreationDTO roomCreationDTO) {
+    public RoomResponseDTO createRoom(RoomCreationDTO roomCreationDTO,Long hotelId) {
         Room room = roomMapper.toEntity(roomCreationDTO);
+        room.setHotel(hotelRepository.findById(hotelId).get());
+        room.setRoomType(roomTypeRepository.findById(roomCreationDTO.getRoomTypeId()).get());
+        room.setStatus(RoomStatus.AVAILABLE);
         Room savedRoom = roomRepository.save(room);
-        return roomMapper.toResponseDTO(savedRoom);
+        RoomResponseDTO roomResponseDTO = roomMapper.toResponseDTO(savedRoom);
+        roomResponseDTO.setHotelName(savedRoom.getHotel().getName());
+        roomResponseDTO.setType(roomTypeMapper.toResponseDTO(savedRoom.getRoomType()));
+        return roomResponseDTO;
     }
 
     @Override
     public RoomResponseDTO getRoomById(Long roomId) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new RoomNotFoundException("Room with ID " + roomId + " not found."));
-
-        return roomMapper.toResponseDTO(room);
+        RoomResponseDTO roomResponseDTO = roomMapper.toResponseDTO(room);
+        roomResponseDTO.setHotelName(room.getHotel().getName());
+        roomResponseDTO.setType(roomTypeMapper.toResponseDTO(room.getRoomType()));
+        return roomResponseDTO;
     }
 
     @Override
     public List<RoomResponseDTO> getAllRooms() {
         List<Room> rooms = roomRepository.findAll();
-        return roomMapper.toResponseDTOs(rooms);
+        List<RoomResponseDTO> roomResponseDTOS = new ArrayList<>();
+        for(Room room : rooms) {
+            RoomResponseDTO roomResponseDTO = roomMapper.toResponseDTO(room);
+            roomResponseDTO.setHotelName(room.getHotel().getName());
+            roomResponseDTO.setType(roomTypeMapper.toResponseDTO(room.getRoomType()));
+            roomResponseDTOS.add(roomResponseDTO);
+        }
+        return roomResponseDTOS;
     }
 
     @Override
@@ -59,4 +81,25 @@ public class RoomServiceImpl implements RoomService {
 
         roomRepository.delete(room);
     }
+
+    @Override
+    public RoomTypeResponseDTO addRoomType(RoomTypeCreationDTO roomTypeCreationDTO) {
+        RoomType roomType = roomTypeMapper.toEntity(roomTypeCreationDTO);
+        RoomType savedRoomType = roomTypeRepository.save(roomType);
+        return roomTypeMapper.toResponseDTO(savedRoomType);
+    }
+
+    @Override
+    public List<RoomResponseDTO> getAllRoomsByHotelId(Long hotelId) {
+        List<Room> rooms = roomRepository.findAllByHotel(hotelRepository.findById(hotelId).get());
+        List<RoomResponseDTO> roomResponseDTOS = new ArrayList<>();
+        for(Room room : rooms) {
+            RoomResponseDTO roomResponseDTO = roomMapper.toResponseDTO(room);
+            roomResponseDTO.setHotelName(room.getHotel().getName());
+            roomResponseDTO.setType(roomTypeMapper.toResponseDTO(room.getRoomType()));
+            roomResponseDTOS.add(roomResponseDTO);
+        }
+        return roomResponseDTOS;
+    }
+
 }

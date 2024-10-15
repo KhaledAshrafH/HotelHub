@@ -12,10 +12,8 @@ import java.util.List;
 public interface GuestMapper {
     GuestResponseDTO toResponseDTO(Guest guest);
     List<GuestResponseDTO> toResponseDTOs(List<Guest> guests);
-    GuestCreationDTO toCreationDTO(Guest guest);
     GuestUpdateDTO toUpdateDTO(Guest guest);
 
-    Guest toEntity(GuestCreationDTO guestCreationDTO);
     Guest toEntity(GuestUpdateDTO guestUpdateDTO);
     Guest toEntity(GuestRegistrationRequestDTO registrationRequestDTO);
 }

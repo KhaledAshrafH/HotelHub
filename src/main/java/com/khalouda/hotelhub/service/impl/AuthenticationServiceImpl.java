@@ -67,7 +67,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .userId(savedUser.getId())
                 .email(savedUser.getEmail())
                 .token(jwtToken)
-                .user(userMapper.toResponseDTO(savedUser))
+                .role(savedUser.getRole())
                 .build();
     }
 
@@ -90,7 +90,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .userId(user.getId())
                 .email(user.getEmail())
                 .token(jwtToken)
-                .user(userMapper.toResponseDTO(user))
+                .role(user.getRole())
                 .build();
     }
 
@@ -152,7 +152,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         .userId(user.getId())
                         .email(user.getEmail())
                         .token(accessToken)
-                        .user(userMapper.toResponseDTO(user))
+                        .role(user.getRole())
                         .build();
 
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);

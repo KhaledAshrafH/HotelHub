@@ -4,10 +4,12 @@ import com.khalouda.hotelhub.exception.HotelNotFoundException;
 import com.khalouda.hotelhub.model.dto.HotelCreationDTO;
 import com.khalouda.hotelhub.model.dto.HotelResponseDTO;
 import com.khalouda.hotelhub.model.dto.HotelUpdateDTO;
+import com.khalouda.hotelhub.model.dto.RoomResponseDTO;
 import com.khalouda.hotelhub.model.entity.Hotel;
 import com.khalouda.hotelhub.model.mapper.HotelMapper;
 import com.khalouda.hotelhub.repository.HotelRepository;
 import com.khalouda.hotelhub.service.HotelService;
+import com.khalouda.hotelhub.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ public class HotelServiceImpl implements HotelService {
 
     private final HotelRepository hotelRepository;
     private final HotelMapper hotelMapper;
+    private final RoomService roomService;
 
     @Override
     public HotelResponseDTO createHotel(HotelCreationDTO hotelCreationDTO) {
@@ -58,4 +61,6 @@ public class HotelServiceImpl implements HotelService {
 
         hotelRepository.delete(hotel);
     }
+
+
 }

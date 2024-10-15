@@ -1,12 +1,13 @@
 package com.khalouda.hotelhub.service;
 
 import com.khalouda.hotelhub.model.dto.*;
+import com.khalouda.hotelhub.model.entity.RoomType;
 
 import java.util.List;
 
 public interface RoomService {
 
-    RoomResponseDTO createRoom(RoomCreationDTO roomCreationDTO);
+    RoomResponseDTO createRoom(RoomCreationDTO roomCreationDTO,Long hotelId);
 
     RoomResponseDTO getRoomById(Long room);
 
@@ -15,5 +16,9 @@ public interface RoomService {
     RoomResponseDTO updateRoom(Long roomId, RoomUpdateDTO roomUpdateDTO);
 
     void deleteRoom(Long roomId);
+
+    RoomTypeResponseDTO addRoomType(RoomTypeCreationDTO roomTypeCreationDTO);
+
+    List<RoomResponseDTO> getAllRoomsByHotelId(Long hotelId);
 
 }

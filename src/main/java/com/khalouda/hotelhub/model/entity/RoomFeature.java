@@ -33,4 +33,7 @@ public class RoomFeature {
 
     @ManyToMany(mappedBy = "roomFeatures")
     private List<Room> rooms;
+
+    @ManyToMany(mappedBy = "roomFeatures")
+    private List<User> users;
 }
