@@ -58,6 +58,9 @@ public class Hotel {
     @OneToMany(mappedBy = "hotel")
     private List<EventSpace> eventSpaces;
 
+    @OneToMany(mappedBy = "hotel")
+    private List<Booking> bookings;
+
     @ManyToOne
     @JoinColumn(name = "hotel_chain_id")
     private HotelChain hotelChain;

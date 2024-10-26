@@ -21,7 +21,6 @@ public class RoomResponseDTO {
     private String roomNumber;
     private int capacity;
     private BigDecimal pricePerNight;
-    private String amenities;
     private RoomStatus status;
     private RoomTypeResponseDTO type;
 }

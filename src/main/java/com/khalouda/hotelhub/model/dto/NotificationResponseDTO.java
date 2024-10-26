@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 @Builder
 public class NotificationResponseDTO {
     private Long notificationId;
-    private Long userId;
     private String message;
     private NotificationStatus status;
 }

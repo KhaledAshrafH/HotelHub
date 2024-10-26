@@ -1,6 +1,7 @@
 package com.khalouda.hotelhub.model.entity;
 
 import com.khalouda.hotelhub.model.enums.NotificationStatus;
+import com.khalouda.hotelhub.model.enums.NotificationType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -25,6 +26,9 @@ public class Notification {
 
     @Enumerated(EnumType.STRING)
     private NotificationStatus status;
+
+    @Enumerated(EnumType.STRING)
+    private NotificationType type;
 
     @CreationTimestamp
     @Column(name = "created_at")

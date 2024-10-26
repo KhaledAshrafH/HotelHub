@@ -14,8 +14,8 @@ import java.math.BigDecimal;
 @Builder
 public class RoomUpdateDTO {
     private String roomNumber;
+    private String hotelName;
     private int capacity;
     private BigDecimal pricePerNight;
-    private String amenities;
     private RoomStatus status;
 }

@@ -13,4 +13,5 @@ public class StaffRegistrationRequestDTO extends RegistrationRequestDTO{
     private String position;
     private BigDecimal salary;
     private String department;
+    private Long hotelId;
 }

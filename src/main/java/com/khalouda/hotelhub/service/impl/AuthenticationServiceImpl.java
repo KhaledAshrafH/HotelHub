@@ -1,16 +1,20 @@
 package com.khalouda.hotelhub.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.khalouda.hotelhub.exception.HotelNotFoundException;
 import com.khalouda.hotelhub.model.dto.*;
 import com.khalouda.hotelhub.model.entity.*;
+import com.khalouda.hotelhub.model.enums.NotificationType;
 import com.khalouda.hotelhub.model.enums.TokenType;
 import com.khalouda.hotelhub.model.mapper.AdminMapper;
 import com.khalouda.hotelhub.model.mapper.GuestMapper;
 import com.khalouda.hotelhub.model.mapper.StaffMapper;
 import com.khalouda.hotelhub.model.mapper.UserMapper;
+import com.khalouda.hotelhub.repository.HotelRepository;
 import com.khalouda.hotelhub.repository.TokenRepository;
 import com.khalouda.hotelhub.repository.UserRepository;
 import com.khalouda.hotelhub.service.AuthenticationService;
+import com.khalouda.hotelhub.service.NotificationService;
 import com.khalouda.hotelhub.util.JwtTokenUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,10 +36,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AdminMapper adminMapper;
     private final StaffMapper staffMapper;
     private final TokenRepository tokenRepository;
+    private final HotelRepository hotelRepository;
     private final JwtTokenUtil jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-
+    private final NotificationService notificationService;
     @Override
     public AuthenticationResponseDTO register(RegistrationRequestDTO input) {
         User user;
@@ -45,10 +50,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 break;
             case ADMIN:
                 user= adminMapper.toEntity((AdminRegistrationRequestDTO) input);
-                System.out.println(user);
                 break;
             case STAFF:
-                user= staffMapper.toEntity((StaffRegistrationRequestDTO) input);
+                Staff staff = staffMapper.toEntity((StaffRegistrationRequestDTO) input);
+                staff.setHotel(hotelRepository.findById(((StaffRegistrationRequestDTO) input).getHotelId()).orElseThrow(()-> new HotelNotFoundException("hotel not found")));
+                user = staff;
                 break;
             default:
                 throw new IllegalArgumentException("Invalid user role");
@@ -59,8 +65,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setLastName(input.getLastName());
         user.setPassword(passwordEncoder.encode(input.getPassword()));
         user.setRole(input.getRole());
+        user.setCity(input.getCity());
 
         User savedUser = userRepository.save(user);
+
+        NotificationCreationDTO notification = NotificationCreationDTO.builder()
+                .userId(savedUser.getId())
+                .message("Welcome "+savedUser.getFirstName() + " " + savedUser.getLastName()+", You enlighten the app!")
+                .type(NotificationType.REGISTRATION_SUCCESS)
+                .build();
+        notificationService.sendNotification(notification);
+
         String jwtToken = jwtService.generateToken(user);
         saveUserToken(savedUser, jwtToken);
         return AuthenticationResponseDTO.builder()

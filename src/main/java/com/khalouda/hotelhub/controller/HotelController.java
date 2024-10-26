@@ -9,24 +9,26 @@ import com.khalouda.hotelhub.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/hotels")
+@RequestMapping("api/v1/hotels")
 @RequiredArgsConstructor
 public class HotelController {
     private final HotelService hotelService;
-    private final RoomService roomService;
+
 
     @PostMapping("")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<HotelResponseDTO> createHotel(@RequestBody HotelCreationDTO hotelCreationDTO) {
         HotelResponseDTO createdHotel = hotelService.createHotel(hotelCreationDTO);
         return new ResponseEntity<>(createdHotel, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<HotelResponseDTO> getHotelById(@PathVariable(name = "id") Long id) {
         HotelResponseDTO hotel = hotelService.getHotelById(id);
         return ResponseEntity.ok(hotel);
@@ -38,21 +40,29 @@ public class HotelController {
         return ResponseEntity.ok(hotels);
     }
 
-
-    @GetMapping("/{hotelId}/rooms")
-    public ResponseEntity<List<RoomResponseDTO>> getAllRoomsByHotelId(@PathVariable(name = "hotelId") Long hotelId) {
-        List<RoomResponseDTO> rooms = roomService.getAllRoomsByHotelId(hotelId);
-        return ResponseEntity.ok(rooms);
+    @GetMapping("search")
+    public ResponseEntity<List<HotelResponseDTO>> getAllHotelsByCity(@RequestParam(name = "city") String city) {
+        List<HotelResponseDTO> hotels = hotelService.getAllHotelByCity(city);
+        return ResponseEntity.ok(hotels);
     }
 
-    @PutMapping("/{id}")
+    @GetMapping("search/near-me")
+    public ResponseEntity<List<HotelResponseDTO>> getAllHotelsNearMe() {
+        List<HotelResponseDTO> hotels = hotelService.getAllHotelNearMe();
+        return ResponseEntity.ok(hotels);
+    }
+
+    @PutMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<HotelResponseDTO> updateHotel(@PathVariable(name = "id") Long id,
                                                         @RequestBody HotelUpdateDTO hotelUpdateDTO) {
         HotelResponseDTO updatedHotel = hotelService.updateHotel(id, hotelUpdateDTO);
         return ResponseEntity.ok(updatedHotel);
     }
 
-    @DeleteMapping("/{id}")
+
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteHotel(@PathVariable(name = "id") Long id) {
         hotelService.deleteHotel(id);
         return ResponseEntity.noContent().build();

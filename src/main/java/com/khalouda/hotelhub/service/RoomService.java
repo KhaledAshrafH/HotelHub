@@ -14,11 +14,13 @@ public interface RoomService {
     List<RoomResponseDTO> getAllRooms();
 
     RoomResponseDTO updateRoom(Long roomId, RoomUpdateDTO roomUpdateDTO);
+    RoomResponseDTO updateRoomPrice(Long roomId, RoomUpdateDTO roomUpdateDTO);
+    RoomResponseDTO updateRoomStatus(Long roomId, RoomUpdateDTO roomUpdateDTO);
 
     void deleteRoom(Long roomId);
 
     RoomTypeResponseDTO addRoomType(RoomTypeCreationDTO roomTypeCreationDTO);
 
     List<RoomResponseDTO> getAllRoomsByHotelId(Long hotelId);
-
+    List<RoomResponseDTO> getAllRoomsOfHotel();
 }

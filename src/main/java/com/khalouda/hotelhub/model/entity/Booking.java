@@ -1,5 +1,6 @@
 package com.khalouda.hotelhub.model.entity;
 
+import com.khalouda.hotelhub.model.enums.BookingStatus;
 import com.khalouda.hotelhub.model.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,7 +25,6 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "booking_id")
     private Long bookingId;
-
     @Column(name = "check_in_date")
     private LocalDateTime checkInDate;
     @Column(name = "check_out_date")
@@ -35,7 +35,9 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status")
     private PaymentStatus paymentStatus;
-
+    @Enumerated(EnumType.STRING)
+    @Column(name = "booking_status")
+    private BookingStatus bookingStatus;
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -52,11 +54,15 @@ public class Booking {
     @OneToMany(mappedBy = "booking")
     private List<EventBooking> eventBookings;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id")
     private Room room;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "hotel_id")
+    private Hotel hotel;
 }

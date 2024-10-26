@@ -1,6 +1,7 @@
 package com.khalouda.hotelhub.controller;
 
 import com.khalouda.hotelhub.model.dto.*;
+import com.khalouda.hotelhub.model.entity.User;
 import com.khalouda.hotelhub.model.enums.UserRole;
 import com.khalouda.hotelhub.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@RequestMapping("/api/auth")
+@RequestMapping("api/v1/auth")
 @RestController
 @RequiredArgsConstructor
 public class AuthenticationController {

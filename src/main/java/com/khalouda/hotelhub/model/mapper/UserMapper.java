@@ -4,6 +4,7 @@ import com.khalouda.hotelhub.model.dto.*;
 import com.khalouda.hotelhub.model.entity.User;
 import org.mapstruct.Mapper;
 
+
 import java.util.List;
 
 @Mapper(componentModel = "spring")

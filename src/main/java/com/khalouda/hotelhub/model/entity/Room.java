@@ -30,7 +30,6 @@ public class Room {
     private int capacity;
     @Column(name = "price_per_night")
     private BigDecimal pricePerNight;
-    private String amenities;
 
     @Enumerated(EnumType.STRING)
     private RoomStatus status;
@@ -53,8 +52,6 @@ public class Room {
     @OneToMany(mappedBy = "room")
     private List<Booking> bookings;
 
-    @OneToMany(mappedBy = "room")
-    private List<RoomAvailability> roomAvailabilities;
 
     @ManyToMany
     @JoinTable(
@@ -64,4 +61,6 @@ public class Room {
     )
     private List<RoomFeature> roomFeatures;
 
+    @ManyToMany(mappedBy = "rooms")
+    private List<Amenity> amenities;
 }

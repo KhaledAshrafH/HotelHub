@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class RoomTypeResponseDTO {
-    private Long typeId;
+    private Long roomTypeId;
     private RoomsType typeName;
     private String description;
     private int maxOccupancy;

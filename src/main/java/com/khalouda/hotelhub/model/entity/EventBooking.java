@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.awt.print.Book;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,8 +23,10 @@ public class EventBooking {
     @Column(name = "event_booking_id")
     private Long eventBookingId;
 
-    @Column(name = "event_date")
-    private java.sql.Date eventDate;
+    @Column(name = "event_date_time")
+    private LocalDateTime eventDateTime;
+
+    private Duration duration;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -39,10 +42,6 @@ public class EventBooking {
     @ManyToOne
     @JoinColumn(name = "event_space_id")
     private EventSpace eventSpace;
-
-    @ManyToOne
-    @JoinColumn(name = "booking_id")
-    private Booking booking;
 
     @OneToMany(mappedBy = "eventBooking")
     private List<EventAttendee> attendees;

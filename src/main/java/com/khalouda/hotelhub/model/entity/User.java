@@ -54,6 +54,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String city;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private UserRole role;
@@ -82,8 +85,6 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     List<Review> reviews;
 
-    @OneToMany(mappedBy = "user")
-    List<LoyaltyPoint> loyaltyPoints;
 
     @OneToMany(mappedBy = "user")
     List<EventBooking> eventBookings;

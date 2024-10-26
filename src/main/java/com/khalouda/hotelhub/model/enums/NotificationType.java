@@ -1,0 +1,12 @@
+package com.khalouda.hotelhub.model.enums;
+
+public enum NotificationType {
+    BOOKING_CONFIRMED,
+    PAYMENT_FAILED,
+    CANCELLATION_SUCCESSFUL,
+    CANCELLATION_FAILED,
+    REGISTRATION_SUCCESS,
+    ACCOUNT_VERIFICATION,
+    PASSWORD_RESET,
+    CUSTOMER_SUPPORT
+}

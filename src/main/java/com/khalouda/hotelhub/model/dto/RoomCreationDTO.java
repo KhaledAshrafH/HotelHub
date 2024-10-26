@@ -20,5 +20,4 @@ public class RoomCreationDTO {
     private String roomNumber;
     private int capacity;
     private BigDecimal pricePerNight;
-    private String amenities;
 }
