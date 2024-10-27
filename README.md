@@ -15,12 +15,12 @@ HotelHub is an advanced hotel booking management system designed to facilitate s
 
 ### Possible Improvements
 
-- **Multi-Language Support:** 
-- **Advanced Analytics Dashboard for Admins:** 
-- **Chatbot for Customer Support:** 
-- **Loyalty Program Integration:** 
-- **Integration with Third-Party Services:** 
-- **Automated Backup System:**  
+- **Multi-Language Support** 
+- **Advanced Analytics Dashboard for Admins** 
+- **Chatbot for Customer Support** 
+- **Loyalty Program Integration** 
+- **Integration with Third-Party Services** 
+- **Automated Backup System**  
 
 ## User Roles Overview
 1. **Guests:**
