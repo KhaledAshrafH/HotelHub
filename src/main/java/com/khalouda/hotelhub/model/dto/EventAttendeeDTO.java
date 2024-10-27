@@ -5,16 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class HotelChainResponseDTO {
-    private Long hotelChainId;
+public class EventAttendeeDTO {
+    private Long attendeeId;
     private String name;
-    private String description;
-    private String headquartersLocation;
-    private List<HotelResponseDTO> hotels;
+    private String email;
 }

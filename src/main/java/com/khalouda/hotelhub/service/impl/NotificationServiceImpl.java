@@ -42,8 +42,8 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public List<NotificationResponseDTO> getNotificationsForUser(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(()-> new NoSuchElementException("User not found"));
+    public List<NotificationResponseDTO> getNotificationsForUser() {
+        User user = UtilityService.getCurrentUser();
         return notificationMapper.toResponseDTOs(notificationRepository.findByUserAndStatusNot(user,NotificationStatus.DELETED));
     }
 

@@ -25,7 +25,7 @@ public class EventSpace {
     private String name;
     private String description;
     private BigDecimal price;
-
+    private Integer capacity;
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;

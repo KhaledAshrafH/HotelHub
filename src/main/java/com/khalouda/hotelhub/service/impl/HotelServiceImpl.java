@@ -5,7 +5,6 @@ import com.khalouda.hotelhub.model.dto.*;
 import com.khalouda.hotelhub.model.entity.Amenity;
 import com.khalouda.hotelhub.model.entity.Hotel;
 import com.khalouda.hotelhub.model.entity.User;
-import com.khalouda.hotelhub.model.mapper.AmenityMapper;
 import com.khalouda.hotelhub.model.mapper.HotelMapper;
 import com.khalouda.hotelhub.repository.HotelRepository;
 import com.khalouda.hotelhub.service.HotelService;
@@ -23,7 +22,6 @@ public class HotelServiceImpl implements HotelService {
 
     private final HotelRepository hotelRepository;
     private final HotelMapper hotelMapper;
-    private final AmenityMapper amenityMapper;
 
     @Override
     public HotelResponseDTO createHotel(HotelCreationDTO hotelCreationDTO) {

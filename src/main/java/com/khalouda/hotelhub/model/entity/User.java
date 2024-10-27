@@ -89,13 +89,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     List<EventBooking> eventBookings;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_room_feature",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "room_feature_id")
-    )
-    private List<RoomFeature> roomFeatures;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

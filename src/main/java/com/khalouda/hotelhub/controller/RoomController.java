@@ -78,8 +78,6 @@ public class RoomController {
     }
 
 
-
-
     @DeleteMapping("rooms/{id}")
     public ResponseEntity<Void> deleteRoom(@PathVariable("id") Long roomId) {
         roomService.deleteRoom(roomId);

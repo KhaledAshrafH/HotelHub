@@ -1,5 +1,7 @@
 package com.khalouda.hotelhub.model.entity;
 
+import com.khalouda.hotelhub.model.enums.BookingStatus;
+import com.khalouda.hotelhub.model.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -28,6 +30,13 @@ public class EventBooking {
 
     private Duration duration;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_status")
+    private PaymentStatus paymentStatus;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "booking_status")
+    private BookingStatus bookingStatus;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -35,14 +44,14 @@ public class EventBooking {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "event_space_id")
     private EventSpace eventSpace;
 
-    @OneToMany(mappedBy = "eventBooking")
+    @OneToMany(mappedBy = "eventBooking", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EventAttendee> attendees;
 }

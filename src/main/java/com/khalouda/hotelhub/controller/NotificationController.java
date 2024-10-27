@@ -6,10 +6,9 @@ import com.khalouda.hotelhub.model.entity.Notification;
 import com.khalouda.hotelhub.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/notifications")
@@ -20,6 +19,23 @@ public class NotificationController {
     @PostMapping("")
     public ResponseEntity<NotificationResponseDTO> sendNotification(@RequestBody NotificationCreationDTO notificationCreateDTO) {
         return ResponseEntity.ok(notificationService.sendNotification(notificationCreateDTO));
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<NotificationResponseDTO>> getAllNotificationsForUser() {
+        return ResponseEntity.ok(notificationService.getNotificationsForUser());
+    }
+
+    @DeleteMapping("{notificationId}")
+    public ResponseEntity<Void> deleteNotification(@PathVariable Long notificationId) {
+        notificationService.deleteNotification(notificationId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("{notificationId}")
+    public ResponseEntity<String> markNotificationAsRead(@PathVariable Long notificationId) {
+        notificationService.markNotificationAsRead(notificationId);
+        return ResponseEntity.ok("The notification has been marked as read");
     }
 
 }

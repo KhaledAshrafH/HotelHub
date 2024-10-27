@@ -53,14 +53,6 @@ public class Room {
     private List<Booking> bookings;
 
 
-    @ManyToMany
-    @JoinTable(
-            name = "room_room_feature",
-            joinColumns = @JoinColumn(name = "room_id"),
-            inverseJoinColumns = @JoinColumn(name = "room_feature_id")
-    )
-    private List<RoomFeature> roomFeatures;
-
     @ManyToMany(mappedBy = "rooms")
     private List<Amenity> amenities;
 }

@@ -12,4 +12,6 @@ public interface AmenityService {
     AmenityResponseDTO assignAmenityToHotel(Long amenityId, Long hotelId);
     AmenityResponseDTO assignAmenityToRoom(Long amenityId, Long roomId);
     List<RoomResponseDTO> getAllRoomsByAmenityId(Long amenityId);
+    List<AmenityResponseDTO> getAllAmenitiesByRoomId(Long roomId);
+    List<AmenityResponseDTO> getAllAmenitiesByHotelId(Long hotelId);
 }

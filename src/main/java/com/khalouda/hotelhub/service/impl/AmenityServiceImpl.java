@@ -20,6 +20,7 @@ import com.khalouda.hotelhub.service.UtilityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -73,6 +74,12 @@ public class AmenityServiceImpl implements AmenityService {
         Amenity amenity = amenityRepository.findById(amenityId).orElseThrow(() -> new AmenityNotFoundException("Amenity not found"));
         Hotel hotel = hotelRepository.findById(hotelId).orElseThrow(() -> new HotelNotFoundException("Hotel not found"));
         User user = UtilityService.getCurrentUser();
+        if(!amenity.isActive())
+            throw new RuntimeException("This amenity is not active");
+
+        if(amenity.getHotel()!=null)
+            throw new RuntimeException("This amenity is already assigned");
+
         if(user.getRole()== UserRole.STAFF||user.getRole()== UserRole.ADMIN){
             if(amenity.getAmenityType()== AmenityType.HOTEL_AMENITY){
                 amenity.setHotel(hotel);
@@ -86,7 +93,7 @@ public class AmenityServiceImpl implements AmenityService {
                 return amenityResponseDTO;
             }
             else
-                throw new RuntimeException("You are not allowed to assign an amenity to an hotel");
+                throw new RuntimeException("You are not allowed to assign " + amenity.getAmenityType().toString() + " to hotel");
         }
         else
             throw new RuntimeException("You are not allowed to assign an amenity");
@@ -97,9 +104,18 @@ public class AmenityServiceImpl implements AmenityService {
         Amenity amenity = amenityRepository.findById(amenityId).orElseThrow(() -> new AmenityNotFoundException("Amenity not found"));
         Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException("Room not found"));
         User user = UtilityService.getCurrentUser();
+        if(!amenity.isActive())
+            throw new RuntimeException("This amenity is not active");
+
+
         if(user.getRole()== UserRole.STAFF){
             if(room.getHotel().getHotelId().equals(((Staff) user).getHotel().getHotelId())){
                 if(amenity.getAmenityType()== AmenityType.ROOM_AMENITY){
+
+                    for(Room roomItem : amenity.getRooms())
+                        if(roomItem.getRoomId().equals(room.getRoomId()))
+                            throw new RuntimeException("This room is already assigned");
+
                     amenity.getRooms().add(room);
                     Amenity assignedAmenity = amenityRepository.save(amenity);
                     AmenityResponseDTO amenityResponseDTO = new AmenityResponseDTO();
@@ -125,5 +141,41 @@ public class AmenityServiceImpl implements AmenityService {
         Amenity amenity = amenityRepository.findById(amenityId).orElseThrow(() -> new AmenityNotFoundException("Amenity not found"));
         List<Room> rooms = amenity.getRooms();
         return roomMapper.toResponseDTOs(rooms);
+    }
+
+    @Override
+    public List<AmenityResponseDTO> getAllAmenitiesByRoomId(Long roomId) {
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new RoomNotFoundException("Room not found"));
+        List<Amenity> amenities = amenityRepository.findAll();
+        List<AmenityResponseDTO> amenityResponseDTOs = new ArrayList<>();
+        for(Amenity amenity : amenities){
+            if(amenity.getRooms().contains(room)){
+                AmenityResponseDTO amenityResponseDTO = new AmenityResponseDTO();
+                amenityResponseDTO.setAmenityId(amenity.getAmenityId());
+                amenityResponseDTO.setName(amenity.getAmenityName());
+                amenityResponseDTO.setDescription(amenity.getDescription());
+                amenityResponseDTO.setAmenityType(amenity.getAmenityType());
+                amenityResponseDTO.setRoomNumber(room.getRoomNumber());
+                amenityResponseDTOs.add(amenityResponseDTO);
+            }
+        }
+        return amenityResponseDTOs;
+    }
+
+    @Override
+    public List<AmenityResponseDTO> getAllAmenitiesByHotelId(Long hotelId) {
+        Hotel hotel = hotelRepository.findById(hotelId).orElseThrow(() -> new HotelNotFoundException("Hotel not found"));
+        List<Amenity> amenities = amenityRepository.findAllByHotel(hotel);
+        List<AmenityResponseDTO> amenityResponseDTOs = new ArrayList<>();
+        for(Amenity amenity : amenities){
+            AmenityResponseDTO amenityResponseDTO = new AmenityResponseDTO();
+            amenityResponseDTO.setAmenityId(amenity.getAmenityId());
+            amenityResponseDTO.setName(amenity.getAmenityName());
+            amenityResponseDTO.setDescription(amenity.getDescription());
+            amenityResponseDTO.setAmenityType(amenity.getAmenityType());
+            amenityResponseDTO.setHotelName(hotel.getName());
+            amenityResponseDTOs.add(amenityResponseDTO);
+        }
+        return amenityResponseDTOs;
     }
 }

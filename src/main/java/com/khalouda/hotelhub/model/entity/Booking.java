@@ -8,7 +8,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -50,9 +49,6 @@ public class Booking {
 
     @OneToOne(mappedBy = "booking")
     private Invoice invoice;
-
-    @OneToMany(mappedBy = "booking")
-    private List<EventBooking> eventBookings;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
