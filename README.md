@@ -1,7 +1,17 @@
 # HotelHub
+<br>
+<p align="center" margin="auto">
+    <kbd>
+<img align="center" 
+            src="https://github.com/KhaledAshrafH/HotelHub/blob/main/hotelhub_cover.png"
+            alt="KhaledAshrafH"  height="280" style="border-radius: 20px;"/>
+    </kbd>
+  </p>
+ <h1 align="center"></h1>
 
 HotelHub is an advanced hotel booking management system designed to facilitate seamless booking of accommodations and event spaces. This web application aims to simplify the hotel management process by providing distinct functionalities for various user roles including Guests, Admins, and Staff. The system is built with a focus on security, usability, and scalability, making it suitable for both small boutique hotels and large hotel chains.
 
+ 
 ## Features
 
 - **User Roles:** The system understands different roles and grants specific functionalities tailored to Guests, Admins, and Staff. Guests can book rooms and view their reservations, Admins can oversee and     manage the entire system, while Staff can handle daily operations and customer inquiries.
