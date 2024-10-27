@@ -26,14 +26,14 @@ public class EventBookingController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("{hotelId}/events/bookings/{bookingId}/attendees") // Use PUT for adding attendees (updating a partial resource)
+    @PutMapping("{hotelId}/events/bookings/{bookingId}/attendees")
     public ResponseEntity<EventBookingResponseDTO> addAttendeesToBooking(@PathVariable Long bookingId,@PathVariable Long hotelId, @RequestBody List<EventAttendeeDTO> attendees) {
         EventBookingResponseDTO responseDTO = eventBookingService.addAttendeesToBooking(hotelId,bookingId, attendees);
         return ResponseEntity.ok(responseDTO);
     }
 
 
-    @GetMapping("{hotelId}/events/bookings/{bookingId}/attendees") // Use GET for retrieving attendee list (read operation)
+    @GetMapping("{hotelId}/events/bookings/{bookingId}/attendees")
     public ResponseEntity<List<EventAttendeeDTO>> getAllAttendeesForBooking(@PathVariable Long bookingId,@PathVariable Long hotelId) {
         List<EventAttendeeDTO> attendees = eventBookingService.getAllAttendeesForBooking(hotelId,bookingId);
         return ResponseEntity.ok(attendees);
