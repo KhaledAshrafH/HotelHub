@@ -101,6 +101,21 @@ public class EventBookingServiceImpl implements EventBookingService {
                 .build();
     }
 
+    
+
+    public List<EventAttendeeDTO> getAllAttendeesForBooking(Long hotelId,Long bookingId) {
+        EventBooking booking = eventBookingRepository.findById(bookingId)
+                .orElseThrow(() -> new EntityNotFoundException("Event booking not found"));
+
+        return booking.getAttendees().stream()
+                .map(attendee -> EventAttendeeDTO.builder()
+                        .attendeeId(attendee.getAttendeeId())
+                        .name(attendee.getName())
+                        .email(attendee.getEmail())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
     public EventBookingResponseDTO addAttendeesToBooking(Long hotelId,Long bookingId, List<EventAttendeeDTO> attendees) {
         EventBooking booking = eventBookingRepository.findById(bookingId)
                 .orElseThrow(() -> new EntityNotFoundException("Event booking not found"));
@@ -134,19 +149,6 @@ public class EventBookingServiceImpl implements EventBookingService {
                 .createdAt(booking.getCreatedAt())
                 .updatedAt(booking.getUpdatedAt())
                 .build();
-    }
-
-    public List<EventAttendeeDTO> getAllAttendeesForBooking(Long hotelId,Long bookingId) {
-        EventBooking booking = eventBookingRepository.findById(bookingId)
-                .orElseThrow(() -> new EntityNotFoundException("Event booking not found"));
-
-        return booking.getAttendees().stream()
-                .map(attendee -> EventAttendeeDTO.builder()
-                        .attendeeId(attendee.getAttendeeId())
-                        .name(attendee.getName())
-                        .email(attendee.getEmail())
-                        .build())
-                .collect(Collectors.toList());
     }
 
     public void cancelEventBooking(Long bookingId,Long hotelId) {
